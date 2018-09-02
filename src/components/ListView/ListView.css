@@ -1,32 +1,43 @@
-.list {
-    padding: 10px;
+.App {
+  text-align: center;
   }
   
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+  
+.list {
+  padding: 10px;
+  height: calc(100vh - 210px)
+}
+
 .row { 
-    border-bottom: 1px solid #ebeced;
-    margin: 30px 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+  border-bottom: 1px solid #ebeced;
+  text-align: left;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
 }
 
 .image {
-    margin-right: 10px;
-    text-align: left;
+  margin-right: 10px;
 }
 
 .icon {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .content {
-    padding: 10px;
-    text-align: left;
+  padding: 10px;
 }
 
 .date {
-    justify-content: right;
-    font-size: 14px;
-    color: grey;
+  color: grey;
+  padding-top: 10px;
+}
+
+.author {
+  padding-bottom: 10px;
 }
