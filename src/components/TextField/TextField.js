@@ -43,6 +43,7 @@ class MaterialTextField extends Component {
           margin="normal"
           style={this.props.styles}
           onChange={this.props.onChange}
+          value={this.props.value}
         />
     );
   }

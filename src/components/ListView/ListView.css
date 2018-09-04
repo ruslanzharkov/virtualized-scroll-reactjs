@@ -26,6 +26,10 @@
   display: inline;
 }
 
+.text {
+  text-align: left;
+}
+
 .image {
   margin-right: 10px;
 }

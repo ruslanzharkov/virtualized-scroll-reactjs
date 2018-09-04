@@ -70,7 +70,7 @@ class ListView extends Component {
        text: this.state.message
     });
     this.setState({message: ''});
-    this.forceUpdate()
+    this.forceUpdate();
   };
 
   render() {
@@ -99,6 +99,7 @@ class ListView extends Component {
                       styles={{width: width}}
                       placeholder="Введите текст"
                       onChange={this.changeText}
+                      value={this.state.message}
                     />
                     <Button 
                       buttonText="Отправить"
