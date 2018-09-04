@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import './ListView.css';
 import loremIpsum from 'lorem-ipsum';
+
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from "react-virtualized";
 import TextField from '../TextField/TextField';
 import Button from '../Button/Button';
+import AppBar from '../AppBar/AppBar';
+
 
 const rowCount = 1000;
 
@@ -82,6 +85,7 @@ class ListView extends Component {
             ({ width, height }) => {
               return (
                 <div>
+                  <AppBar/>
                   <List
                   ref={ref => this.refs = ref}
                   width={width}
@@ -100,6 +104,7 @@ class ListView extends Component {
                       placeholder="Введите текст"
                       onChange={this.changeText}
                       value={this.state.message}
+                      multiline={true}
                     />
                     <Button 
                       buttonText="Отправить"

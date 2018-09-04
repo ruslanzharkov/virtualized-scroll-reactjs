@@ -42,6 +42,7 @@ class MaterialTextField extends Component {
           fullWidth={this.props.fullWidth}
           margin="normal"
           style={this.props.styles}
+          multiline={this.props.multiline}
           onChange={this.props.onChange}
           value={this.props.value}
         />
