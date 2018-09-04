@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './ListView.css';
-
 import loremIpsum from 'lorem-ipsum';
-
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from "react-virtualized";
+import TextField from '../TextField/TextField';
+import Button from '../Button/Button';
 
 const rowCount = 1000;
 
@@ -29,6 +29,10 @@ class ListView extends Component {
       fixedWidth: true,
       defaultHeight: 100
     });
+
+    this.state = {
+      message: ''
+    };
   }
   
   renderRow = ({ index, key, style, parent }) => {
@@ -46,13 +50,29 @@ class ListView extends Component {
             <div className="content">
               <div className="author">{this.list[index].name}</div>
               <div className="text">{this.list[index].text}</div>
-              <div className="date">{this.list[index].date}</div>
             </div>
+            <div className="date">{this.list[index].date}</div>
           </div>
       </CellMeasurer>
     );
   }
+
+  changeText = (event) => {
+    this.setState({message: event.target.value})
+  };
   
+  sendMessage = () => {
+    this.list.push({
+       id: this.list.length + 1,
+       name: 'User', 
+       icon: `https://robohash.org/1111`,
+       date: new Date().toLocaleString(),
+       text: this.state.message
+    });
+    this.setState({message: ''});
+    this.forceUpdate()
+  };
+
   render() {
     return (
       <div className="App">
@@ -60,14 +80,33 @@ class ListView extends Component {
           <AutoSizer>
           {
             ({ width, height }) => {
-              return <List
-                width={width}
-                height={height}
-                deferredMeasurementCache={this.cache}
-                rowHeight={this.cache.rowHeight}
-                rowRenderer={this.renderRow}
-                rowCount={this.list.length}
-                overscanRowCount={3} />
+              return (
+                <div>
+                  <List
+                  ref={ref => this.refs = ref}
+                  width={width}
+                  height={height}
+                  deferredMeasurementCache={this.cache}
+                  rowHeight={this.cache.rowHeight}
+                  rowRenderer={this.renderRow}
+                  rowCount={this.list.length}
+                  scrollToIndex={this.list.length}
+                  recomputeRowHeights={this.list.length}
+                  overscanRowCount={3} />
+
+                  <div className="elements">
+                    <TextField
+                      styles={{width: width}}
+                      placeholder="Введите текст"
+                      onChange={this.changeText}
+                    />
+                    <Button 
+                      buttonText="Отправить"
+                      styles={{display: 'inherit'}}
+                      onClick={this.sendMessage}
+                    />
+                  </div>
+                </div>)
             }
           }
           </AutoSizer>

@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
   container: {
-    display: 'flex',
+    display: 'inline-block',
     flexWrap: 'wrap',
   },
   textField: {
@@ -39,8 +39,10 @@ class MaterialTextField extends Component {
             shrink: true,
           }}
           placeholder={this.props.placeholder}
-          fullWidth
+          fullWidth={this.props.fullWidth}
           margin="normal"
+          style={this.props.styles}
+          onChange={this.props.onChange}
         />
     );
   }

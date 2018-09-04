@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
+      display: 'inherit',
     },
     input: {
       display: 'none',
@@ -15,9 +16,14 @@ const styles = theme => ({
   function MaterialButton(props) {
     const { classes } = props;
     return (
-      <div>
-        <Button variant="contained" color="primary" className={classes.button}>
-          Primary
+      <div style={props.styles}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          className={classes.button}
+          onClick={props.onClick}
+          >
+          {props.buttonText}
         </Button>
       </div>
     );
