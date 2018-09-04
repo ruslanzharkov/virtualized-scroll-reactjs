@@ -14,8 +14,8 @@ class ListView extends Component {
     this.list = Array(rowCount).fill().map((val, idx) => {
       return {
         id: idx, 
-        name: `Robot - ${idx}`,
-        image: `https://robohash.org/${idx}`,
+        name: `Robot`, 
+        icon: `https://robohash.org/${idx}`,
         date: new Date().toLocaleString(),
         text: loremIpsum({
           count: 2, 
@@ -41,11 +41,11 @@ class ListView extends Component {
         rowIndex={index}>
           <div style={style} className="row">
             <div className="image">
-              <img src={this.list[index].image} alt="" className="icon"/>
+              <img src={this.list[index].icon} alt="" className="icon"/>
             </div>
             <div className="content">
               <div className="author">{this.list[index].name}</div>
-              <div>{this.list[index].text}</div>
+              <div className="text">{this.list[index].text}</div>
               <div className="date">{this.list[index].date}</div>
             </div>
           </div>
