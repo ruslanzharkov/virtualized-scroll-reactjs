@@ -29,8 +29,18 @@ class ButtonAppBar extends Component {
       'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
       document.querySelector('#insertion-point-jss'),
     );
-
   }
+  renderAngles = () => {
+    if (!this.props.showAngles) 
+      return null;
+
+    return (
+      <div className="angles">
+        <Icon className={classNames("fa fa-angle-down")}></Icon>
+        <Icon className={classNames("fa fa-angle-up")}></Icon>
+      </div>  
+    );
+  };
 
   render() {
     return (
@@ -38,7 +48,14 @@ class ButtonAppBar extends Component {
         <AppBar>
           <Toolbar>
             <Icon className={classNames("fa fa-search")}></Icon>
-            <input type="text" className="textField" placeholder="Поиск..."/>
+            <input 
+              type="text" 
+              className="textField" 
+              placeholder="Search something..." 
+              value={this.props.value} 
+              onChange={this.props.onChangeInput}
+            />
+            {this.renderAngles()}
           </Toolbar>
         </AppBar>
       </div>

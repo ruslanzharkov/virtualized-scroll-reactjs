@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './ListView.css';
 import loremIpsum from 'lorem-ipsum';
-
+import Fuse from 'fuse.js';
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from "react-virtualized";
 import TextField from '../TextField/TextField';
 import Button from '../Button/Button';
 import AppBar from '../AppBar/AppBar';
-
+import {searchOptions} from '../../etc/searchOptions'
 
 const rowCount = 1000;
 
@@ -34,7 +34,10 @@ class ListView extends Component {
     });
 
     this.state = {
-      message: ''
+      message: '',
+      searchText: '',
+      searchedItems: [],
+      showAngles: false
     };
   }
   
@@ -61,7 +64,21 @@ class ListView extends Component {
   }
 
   changeText = (event) => {
-    this.setState({message: event.target.value})
+    let message = event.target.value
+    this.setState({message});
+
+    let searchedItems = this.searchMessages(message);
+    console.log(searchedItems);
+    this.setState({searchedItems})
+  };
+
+  changeSearchText = (event) => {
+    event.target.value.length > 0 ? this.setState({showAngles: true}) : this.setState({showAngles: false});
+  };
+
+  searchMessages = (messageForSearch) => {
+    let fuse = new Fuse(this.list, searchOptions);
+    return fuse.search(messageForSearch);
   };
   
   sendMessage = () => {
@@ -73,8 +90,8 @@ class ListView extends Component {
        text: this.state.message
     });
     this.setState({message: ''});
-    this.forceUpdate();
   };
+
 
   render() {
     return (
@@ -85,29 +102,30 @@ class ListView extends Component {
             ({ width, height }) => {
               return (
                 <div>
-                  <AppBar/>
+                  <AppBar onChangeInput={this.changeSearchText} showAngles={this.state.showAngles}/>
                   <List
-                  ref={ref => this.refs = ref}
-                  width={width}
-                  height={height}
-                  deferredMeasurementCache={this.cache}
-                  rowHeight={this.cache.rowHeight}
-                  rowRenderer={this.renderRow}
-                  rowCount={this.list.length}
-                  scrollToIndex={this.list.length}
-                  recomputeRowHeights={this.list.length}
-                  overscanRowCount={3} />
+                    ref='List'
+                    width={width}
+                    height={height}
+                    deferredMeasurementCache={this.cache}
+                    rowHeight={this.cache.rowHeight}
+                    rowRenderer={this.renderRow}
+                    rowCount={this.list.length}
+                    scrollToIndex={this.list.length}
+                    recomputeRowHeights={this.list.length}
+                    overscanRowCount={3} 
+                  />
 
                   <div className="elements">
                     <TextField
                       styles={{width: width}}
-                      placeholder="Введите текст"
+                      placeholder="Write a message..."
                       onChange={this.changeText}
                       value={this.state.message}
                       multiline={true}
                     />
                     <Button 
-                      buttonText="Отправить"
+                      buttonText="Send"
                       styles={{display: 'inherit'}}
                       onClick={this.sendMessage}
                     />
