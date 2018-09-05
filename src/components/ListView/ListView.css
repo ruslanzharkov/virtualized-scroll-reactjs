@@ -23,7 +23,8 @@
 }
 
 .elements {
-  display: inline;
+  flex-grow: 1,;
+  margin-left: 300px
 }
 
 .text {

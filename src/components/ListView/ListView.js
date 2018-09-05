@@ -6,8 +6,9 @@ import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from "react-virtuali
 import TextField from '../TextField/TextField';
 import Button from '../Button/Button';
 import AppBar from '../AppBar/AppBar';
-import {searchOptions} from '../../etc/searchOptions'
-
+import {searchOptions} from '../../etc/searchOptions';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 const rowCount = 1000;
 
 class ListView extends Component {
@@ -78,13 +79,13 @@ class ListView extends Component {
 
   goToUpMessage = () => {
     let searchedItems = this.state.searchedItems;
-    this._List.scrollToRow(searchedItems[this.state.incrementForResultSearchItems].id)
+    this._List.scrollToRow(searchedItems[this.state.incrementForResultSearchItems].id);
     this.setState({incrementForResultSearchItems: this.state.incrementForResultSearchItems + 1})
   };
 
   goToDownMessage = () => {
     let searchedItems = this.state.searchedItems;
-    this._List.scrollToRow(searchedItems[this.state.incrementForResultSearchItems].id)
+    this._List.scrollToRow(searchedItems[this.state.incrementForResultSearchItems].id);
     this.setState({incrementForResultSearchItems: this.state.incrementForResultSearchItems - 1})
   };
 
@@ -106,6 +107,30 @@ class ListView extends Component {
 
   getListRef = (node) => {
     this._List = node;
+  };
+
+  renderSmallComponents = () => {
+    return (
+      <div className="elements">
+          <Grid container spacing={24}>
+            <Grid item xs>
+              <TextField
+                placeholder="Write a message..."
+                onChange={this.changeText}
+                value={this.state.message}
+                multiline={true}
+                fullWidth={true}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Button 
+              buttonText="Send message"
+              onClick={this.sendMessage}
+            />
+            </Grid>
+          </Grid>
+        </div>
+    )
   };
 
   render() {
@@ -135,26 +160,13 @@ class ListView extends Component {
                     recomputeRowHeights={this.list.length}
                     overscanRowCount={3} 
                   />
-
-                  <div className="elements">
-                    <TextField
-                      styles={{width: width}}
-                      placeholder="Write a message..."
-                      onChange={this.changeText}
-                      value={this.state.message}
-                      multiline={true}
-                    />
-                    <Button 
-                      buttonText="Send"
-                      styles={{display: 'inherit'}}
-                      onClick={this.sendMessage}
-                    />
-                  </div>
-                </div>)
+                </div>
+                )
             }
           }
           </AutoSizer>
         </div>
+        {this.renderSmallComponents()}
       </div>
     );
   }
