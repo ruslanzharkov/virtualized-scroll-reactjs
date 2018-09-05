@@ -8,13 +8,13 @@ import Button from '../Button/Button';
 import AppBar from '../AppBar/AppBar';
 import {searchOptions} from '../../etc/searchOptions';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-const rowCount = 1000;
+import Arrow from '../Arrow/Arrow';
 
+const rowCount = 1000;
 class ListView extends Component {
   constructor() {
     super();
-  
+
     this.list = Array(rowCount).fill().map((val, idx) => {
       return {
         id: idx, 
@@ -39,11 +39,18 @@ class ListView extends Component {
       searchText: '',
       searchedItems: [],
       showAngles: false,
-      incrementForResultSearchItems: 0
+      incrementForResultSearchItems: 0,
+      showScrollBottom: false
     };
   }
   
-  renderRow = ({ index, key, style, parent }) => {
+  renderRow = ({ index, key, isScrolling,  style, parent }) => {
+
+    console.log(this.list[index].id === this.list[this.list.length-1].id)
+    if (this.list[index].id !== this.list[this.list.length-1].id)
+      this.setState({showScrollBottom: false})
+    else this.setState({showScrollBottom: true})
+
     return (
       <CellMeasurer 
         key={key}
@@ -95,7 +102,8 @@ class ListView extends Component {
   };
   
   sendMessage = () => {
-    this.list.push({
+    if (this.state.message) {
+      this.list.push({
        id: this.list.length + 1,
        name: 'User', 
        icon: `https://robohash.org/1111`,
@@ -103,6 +111,8 @@ class ListView extends Component {
        text: this.state.message
     });
     this.setState({message: ''});
+    this._List.scrollToRow(this.list.length); 
+    }
   };
 
   getListRef = (node) => {
@@ -122,7 +132,7 @@ class ListView extends Component {
                 fullWidth={true}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs>
               <Button 
               buttonText="Send message"
               onClick={this.sendMessage}
@@ -130,6 +140,21 @@ class ListView extends Component {
             </Grid>
           </Grid>
         </div>
+    )
+  };
+
+  scrollRowBottom = () => {
+    this._List.scrollToRow(this.list.length); 
+  };
+
+  showScroll = () => {
+    if (this.state.showScrollBottom)
+      return null;
+
+    return (
+      <div className="arrow">
+         <Arrow scrollBottom={this.scrollRowBottom}/>
+      </div>
     )
   };
 
@@ -160,8 +185,9 @@ class ListView extends Component {
                     recomputeRowHeights={this.list.length}
                     overscanRowCount={3} 
                   />
+                  {this.showScroll()}
                 </div>
-                )
+              )
             }
           }
           </AutoSizer>

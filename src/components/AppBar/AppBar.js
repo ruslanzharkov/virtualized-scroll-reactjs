@@ -4,9 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Icon from '@material-ui/core/Icon';
-import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import classNames from 'classnames';
-import TextField from '../TextField/TextField';
 import './AppBar.css';
 
 const styles = {
@@ -22,13 +20,6 @@ class ButtonAppBar extends Component {
   constructor(props) {
     super(props);
     const { classes } = props;
-  }
-  
-  componentDidMount() {
-    loadCSS(
-      'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
-      document.querySelector('#insertion-point-jss'),
-    );
   }
 
   downMessage = () => {
