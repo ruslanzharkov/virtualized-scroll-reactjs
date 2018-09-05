@@ -37,7 +37,8 @@ class ListView extends Component {
       message: '',
       searchText: '',
       searchedItems: [],
-      showAngles: false
+      showAngles: false,
+      incrementForResultSearchItems: 0
     };
   }
   
@@ -66,14 +67,25 @@ class ListView extends Component {
   changeText = (event) => {
     let message = event.target.value
     this.setState({message});
-
-    let searchedItems = this.searchMessages(message);
-    console.log(searchedItems);
-    this.setState({searchedItems})
   };
 
   changeSearchText = (event) => {
-    event.target.value.length > 0 ? this.setState({showAngles: true}) : this.setState({showAngles: false});
+    let searchText = event.target.value;
+    let searchedItems = this.searchMessages(searchText);
+    this.setState({searchedItems});
+    searchText.length > 0 ? this.setState({showAngles: true}) : this.setState({showAngles: false});
+  };
+
+  goToUpMessage = () => {
+    let searchedItems = this.state.searchedItems;
+    this._List.scrollToRow(searchedItems[this.state.incrementForResultSearchItems].id)
+    this.setState({incrementForResultSearchItems: this.state.incrementForResultSearchItems + 1})
+  };
+
+  goToDownMessage = () => {
+    let searchedItems = this.state.searchedItems;
+    this._List.scrollToRow(searchedItems[this.state.incrementForResultSearchItems].id)
+    this.setState({incrementForResultSearchItems: this.state.incrementForResultSearchItems - 1})
   };
 
   searchMessages = (messageForSearch) => {
@@ -92,6 +104,9 @@ class ListView extends Component {
     this.setState({message: ''});
   };
 
+  getListRef = (node) => {
+    this._List = node;
+  };
 
   render() {
     return (
@@ -102,9 +117,14 @@ class ListView extends Component {
             ({ width, height }) => {
               return (
                 <div>
-                  <AppBar onChangeInput={this.changeSearchText} showAngles={this.state.showAngles}/>
+                  <AppBar 
+                    onChangeInput={this.changeSearchText} 
+                    showAngles={this.state.showAngles}
+                    goToDownMessage={this.goToDownMessage}
+                    goToUpMessage={this.goToUpMessage}
+                  />
                   <List
-                    ref='List'
+                    ref={this.getListRef}
                     width={width}
                     height={height}
                     deferredMeasurementCache={this.cache}

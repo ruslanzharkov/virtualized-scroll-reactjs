@@ -30,14 +30,23 @@ class ButtonAppBar extends Component {
       document.querySelector('#insertion-point-jss'),
     );
   }
+
+  downMessage = () => {
+    this.props.goToDownMessage();
+  };
+
+  upMessage = () => {
+    this.props.goToUpMessage();
+  };
+
   renderAngles = () => {
     if (!this.props.showAngles) 
       return null;
 
     return (
       <div className="angles">
-        <Icon className={classNames("fa fa-angle-down")}></Icon>
-        <Icon className={classNames("fa fa-angle-up")}></Icon>
+        <Icon className={classNames("fa fa-angle-down")} onClick={this.downMessage}></Icon>
+        <Icon className={classNames("fa fa-angle-up")} onClick={this.upMessage}></Icon>
       </div>  
     );
   };
