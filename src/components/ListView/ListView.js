@@ -20,7 +20,7 @@ class ListView extends Component {
         id: idx, 
         name: `Robot`, 
         icon: `https://robohash.org/${idx}`,
-        date: new Date().toLocaleString(),
+        date: new Date().toLocaleString('en-US',{hour12:false}),
         text: loremIpsum({
           count: 2, 
           units: 'sentences',
@@ -45,8 +45,6 @@ class ListView extends Component {
   }
   
   renderRow = ({ index, key, isScrolling,  style, parent }) => {
-
-    console.log(this.list[index].id === this.list[this.list.length-1].id)
     if (this.list[index].id !== this.list[this.list.length-1].id)
       this.setState({showScrollBottom: false})
     else this.setState({showScrollBottom: true})
@@ -101,12 +99,34 @@ class ListView extends Component {
     return fuse.search(messageForSearch);
   };
   
+  splitUserMessages = () => {
+    let dateOfLastItem = this.list[this.list.length-1].date.toLocaleString('en-US',{hour12:false}).split(" ");
+    let dateofNewItem = new Date().toLocaleString('en-US',{hour12:false}).split(" ");
+    let timeOfLastItem = dateOfLastItem[1].split(":");
+    let timeofNewItem = dateofNewItem[1].split(":");
+
+    if (timeofNewItem[1] - timeOfLastItem[1] <= 15) 
+      return true;
+    else 
+      return false;
+  };
+
   sendMessage = () => {
+    let userData = {
+      name: '',
+      icon: ''
+    }
+
+    if(!this.splitUserMessages()) {
+      userData.name = 'User';
+      userData.icon = 'https://robohash.org/1111';
+    }
+
     if (this.state.message) {
       this.list.push({
        id: this.list.length + 1,
-       name: 'User', 
-       icon: `https://robohash.org/1111`,
+       name: userData.icon, 
+       icon: userData.icon,
        date: new Date().toLocaleString(),
        text: this.state.message
     });
