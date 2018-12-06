@@ -35,7 +35,7 @@ class ButtonAppBar extends Component {
       return null;
 
     return (
-      <div className="angles">
+      <div className={"angles"}>
         <Icon className={classNames("fa fa-angle-down")} onClick={this.downMessage}></Icon>
         <Icon className={classNames("fa fa-angle-up")} onClick={this.upMessage}></Icon>
       </div>  
@@ -50,7 +50,7 @@ class ButtonAppBar extends Component {
             <Icon className={classNames("fa fa-search")}></Icon>
             <input 
               type="text" 
-              className="textField" 
+              className={"textField"} 
               placeholder="Search something..." 
               value={this.props.value} 
               onChange={this.props.onChangeInput}
